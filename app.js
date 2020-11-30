@@ -9,12 +9,24 @@ app.set('view engine', 'mustache');
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('port', process.env.PORT || 3000);
 
-app.get('/', (req, res) => {
-  res.render("home")
+app.get('/open', (req, res) => {
+  res.render("opentickets")
+})
+
+app.get('/resolved', (req, res) => {
+  res.render("resolvedtickets")
+})
+
+app.get('/closed', (req, res) => {
+  res.render("closedtickets")
 })
 
 app.get('/login', (req, res) => {
   res.render("login")
+})
+
+app.get('/comments', (req, res) => {
+  res.render("comments")
 })
 
 app.listen(app.get('port'), () => {
