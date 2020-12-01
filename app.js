@@ -1,7 +1,8 @@
 var express = require('express'),
   mustache = require('mustache-express'),
   path = require('path'),
-  app = express();
+  app = express(),
+  Datastore = require('nedb');
 
 app.engine('mustache', mustache());
 app.use(express.urlencoded());
