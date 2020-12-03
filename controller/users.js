@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 async function init(instance) {
     await createUser(instance, 'user1', 'user1', '0001').catch(error => {});
@@ -12,8 +12,8 @@ async function createUser(instance, username, password, organisationId) {
     return await instance.createUser(username, hashed, organisationId, salt);
 }
 
-async function loginValidation(instance, username, password) {
-    const user = await instance.getUser(username);
+async function loginValidation(UserDb, username, password) {
+    const user = await UserDb.getUser(username);
     if (user === undefined) {
         return undefined;
     }

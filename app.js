@@ -1,4 +1,5 @@
 const UserDb = require('./model/userdb.js');
+const bcrypt = require('bcrypt');
 
 var express = require('express'),
   mustache = require('mustache-express'),
@@ -59,20 +60,20 @@ app.get('/login', (req, res) => {
   res.render("login")
 })
 
-app.get('/open', (req, res) => {
-  if (req.isAuthenticated()) {
-    try {
-      const list = await Tickets.getAllTickets();
-      res.render("opentickets", {
-        "tickets": list
-      });
-    } catch (e) {
-      console.log(`Error:` (e));
-    }
-  } else {
-    res.redirect('/login');
-  }
-});
+// app.get('/open', (req, res) => {
+//   if (req.isAuthenticated()) {
+//     try {
+//       const list = await Tickets.getAllTickets();
+//       res.render("opentickets", {
+//         "tickets": list
+//       });
+//     } catch (e) {
+//       console.log(`Error:` (e));
+//     }
+//   } else {
+//     res.redirect('/login');
+//   }
+// });
 
 app.get('/resolved', (req, res) => {
   res.render("resolvedtickets")
