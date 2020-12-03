@@ -23,10 +23,10 @@ class UserDb {
         return new Promise(( res, rej) => {
             this.db.findOne({ username }, (err, doc) => {
                 if (err) {
-                    reject(err);
+                    rej(err);
                     return;
                 }
-                resolve(doc);
+                res(doc);
             });
         });
     }
