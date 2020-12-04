@@ -8,16 +8,13 @@ var express = require('express'),
   session = require('express-session'),
   bodyParser = require('body-parser');
   LocalStrategy = require('passport-local').Strategy,
-  require('./config/passport'),
+  PassportConfig = require('./config/passport'),
   UserDb = require('./model/userdb.js'),
   TicketDb = require('./model/ticketdb.js'),
-  User = require('./controller/users'),
+  UserController = require('./controller/users'),
   Ticket = require('./controller/tickets');
 
 app.engine('mustache', mustache());
-
-app.use('/', require('./routes/index'));
-app.use('/users', require('./routes/users'));
 
 app.use(express.urlencoded());
 app.use(express.static('public'));
@@ -32,21 +29,22 @@ app.set('port', process.env.PORT || 3000);
 
 var userDB = new Datastore({ filename: 'users.nedb.db', autoload: true });
 var ticketDB = new Datastore({ filename: 'tickets.nedb.db', autoload: true });
+
 const users = new UserDb(userDB);
+UserController.init(users);
+
 const tickets = new TicketDb(ticketDB);
-User.init(users);
 Ticket.init(tickets);
 
-app.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/open',
-    failureRedirect: '/login',
-    failureFlash: true,
-  })
-);
+PassportConfig.initPassport(users, tickets);
+
+app.use('/',     require('./routes/index'));
+app.use('/auth', require('./routes/authentication').createRouter( passport, users ) );
+
+
 app.get('/login', (req, res) => {
-  res.render("login")
-})
+  res.redirect('/auth/login');
+});
 
 // app.get('/open', (req, res) => {
 //   if (req.isAuthenticated()) {

@@ -7,10 +7,13 @@ async function init(instance) {
 
 async function createTicket(instance, assignedUser, type, ticketNo, date, ticketTimestamp, description, bugFinder, priority, currentStatus, orgnaisationId) {
     const ticket = await this.addTicket(ticketNo);
-    if (ticket !== null){
+
+    if (ticket !== null)
         throw new Error('Post exists');
-    }
-    return await instance.createTicket(instance, assignedUser, type, ticketNo, date, ticketTimestamp, description, bugFinder, priority, currentStatus, orgnaisationId)
+    
+    return await instance.createTicket(instance, assignedUser, 
+        type, ticketNo, date, ticketTimestamp, description, 
+        bugFinder, priority, currentStatus, orgnaisationId)
 };
 
 exports.init = init;

@@ -12,16 +12,29 @@ async function createUser(instance, username, password, organisationId) {
     return await instance.createUser(username, hashed, organisationId, salt);
 }
 
-async function loginValidation(username, password) {
-    const user = await getUser(username);
-    if (user === undefined) {
-        return undefined;
-    }
-    if (await bcrypt.compare(password, user.password)) {
+async function loginValidation(UserDb, username, password) {
+    const user = await UserDb.getUser(username);
+    if (user == null || user === undefined) 
+        return null;
+    
+    if (await bcrypt.compare(password, user.password)) 
         return user;
-    }
-    throw new Error('invalid password');
+    
+    return null;
 }
 
+class UserController {
+    passport = null;
+    userDb = null;
+
+    constructor (passport, userDb) {
+        this.passport = passport;
+        this.userDb = userDb;
+    }
+
+    
+}
+
+exports.UserControllerClass = UserController;
 exports.loginValidation = loginValidation;
 exports.init = init;

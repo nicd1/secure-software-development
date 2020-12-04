@@ -11,7 +11,7 @@ class UserDb {
         this.db.insert({ username, password, organisationId, salt });
     }
 
-    getUser(username) {
+    async getUser(username) {
         return new Promise(( res, rej) => {
             this.db.findOne({ username }, (err, doc) => {
                 if (err) {
