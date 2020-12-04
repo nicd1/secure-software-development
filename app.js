@@ -1,4 +1,5 @@
 var express = require('express'),
+  router = express.Router(),
   mustache = require('mustache-express'),
   path = require('path'),
   app = express(),
@@ -7,12 +8,16 @@ var express = require('express'),
   session = require('express-session'),
   bodyParser = require('body-parser');
   LocalStrategy = require('passport-local').Strategy,
+  require('./config/passport'),
   UserDb = require('./model/userdb.js'),
   TicketDb = require('./model/ticketdb.js'),
   User = require('./controller/users'),
   Ticket = require('./controller/tickets');
 
 app.engine('mustache', mustache());
+
+app.use('/', require('./routes/index'));
+app.use('/users', require('./routes/users'));
 
 app.use(express.urlencoded());
 app.use(express.static('public'));
@@ -31,29 +36,6 @@ const users = new UserDb(userDB);
 const tickets = new TicketDb(ticketDB);
 User.init(users);
 Ticket.init(tickets);
-
-passport.serializeUser((user, done) => {
-  done(null, user.username);
-});
-
-passport.deserializeUser(async(username, done) => {
-  try {
-    done(null, await TicketDb.getUser(username));
-  } catch (e) {
-    done(e);
-  }
-})
-
-passport.use(new LocalStrategy(
-  async function(username, password, done) {
-    try {
-      const user = await User.loginValidation(TicketDb, username, password);
-      done(null, user);
-    } catch (e) {
-      done(e, undefined, { message: 'Username or password is incorrect.' });
-    }
-  }
-))
 
 app.post('/login',
   passport.authenticate('local', {
