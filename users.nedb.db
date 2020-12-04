@@ -1,0 +1,3 @@
+{"username":"user1","password":"$2b$10$bab7jelCewRsOyiWbYK4KuotXEbvSwF/tFaK5p9obG0SoeoMioaY.","organisationId":"0001","salt":"$2b$10$bab7jelCewRsOyiWbYK4Ku","_id":"0HCw06V8FEs6p2Ud"}
+{"username":"user2","password":"$2b$10$4SeAUOZ8txC3hL/AQ/BBiOVj5Ovws7ZGUZNNwK4TyoATLkBfpLOZG","organisationId":"0001","salt":"$2b$10$4SeAUOZ8txC3hL/AQ/BBiO","_id":"Hizey6wHLQwbbFgJ"}
+{"username":"user3","password":"$2b$10$GVwOXfrwiIUqTNWR2dnPD.N3S3TnhQK1oxRK3w7hml956cLFbMDX6","organisationId":"0002","salt":"$2b$10$GVwOXfrwiIUqTNWR2dnPD.","_id":"VxDG7aDqdNKSBkFv"}

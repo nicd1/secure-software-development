@@ -1,6 +1,3 @@
-const UserDb = require('./model/userdb.js');
-const bcrypt = require('bcrypt');
-
 var express = require('express'),
   mustache = require('mustache-express'),
   path = require('path'),
@@ -10,8 +7,10 @@ var express = require('express'),
   session = require('express-session'),
   bodyParser = require('body-parser');
   LocalStrategy = require('passport-local').Strategy,
-  Users = require('./model/userdb.js');
-  User = require('./controller/users');
+  UserDb = require('./model/userdb.js'),
+  TicketDb = require('./model/ticketdb.js'),
+  User = require('./controller/users'),
+  Ticket = require('./controller/tickets');
 
 app.engine('mustache', mustache());
 
@@ -26,13 +25,20 @@ app.set('view engine', 'mustache');
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('port', process.env.PORT || 3000);
 
+var userDB = new Datastore({ filename: 'users.nedb.db', autoload: true });
+var ticketDB = new Datastore({ filename: 'tickets.nedb.db', autoload: true });
+const users = new UserDb(userDB);
+const tickets = new TicketDb(ticketDB);
+User.init(users);
+Ticket.init(tickets);
+
 passport.serializeUser((user, done) => {
   done(null, user.username);
 });
 
 passport.deserializeUser(async(username, done) => {
   try {
-    done(null, await Users.getUser(username));
+    done(null, await TicketDb.getUser(username));
   } catch (e) {
     done(e);
   }
@@ -41,7 +47,7 @@ passport.deserializeUser(async(username, done) => {
 passport.use(new LocalStrategy(
   async function(username, password, done) {
     try {
-      const user = await User.loginValidation(Users, username, password);
+      const user = await User.loginValidation(TicketDb, username, password);
       done(null, user);
     } catch (e) {
       done(e, undefined, { message: 'Username or password is incorrect.' });

@@ -12,8 +12,8 @@ async function createUser(instance, username, password, organisationId) {
     return await instance.createUser(username, hashed, organisationId, salt);
 }
 
-async function loginValidation(UserDb, username, password) {
-    const user = await UserDb.getUser(username);
+async function loginValidation(username, password) {
+    const user = await getUser(username);
     if (user === undefined) {
         return undefined;
     }

@@ -1,14 +1,6 @@
-const Datastore = require('nedb');
-
 class UserDb {
-    constructor(path, datastore) {
-        this.db = datastore;
-
-        if(path) {
-            this.db = new datastore({ filename: path, autoload: true });
-        } else {
-            this.db = new Datastore({ filename: 'users.nedb.db', autoload: true});
-        }
+    constructor(userDB) {
+        this.db = userDB;
     }
 
     async createUser(username, password, organisationId, salt) {
