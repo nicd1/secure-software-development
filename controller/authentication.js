@@ -4,9 +4,9 @@ class AuthenticationController {
     passport = null;
     dbInstance = null;
 
-    constructor (passport, dbInstance) {
+    constructor (passport, DbInstance) {
         this.passport = passport;
-        this.dbInstance = dbInstance;
+        this.dbInstance = DbInstance;
     }
 
     // Called on [GET] /login

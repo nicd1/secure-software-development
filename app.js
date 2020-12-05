@@ -1,19 +1,13 @@
 var express = require('express'),
-  router = express.Router(),
-  mustache = require('mustache-express'),
-  path = require('path'),
-  app = express(),
-  Datastore = require('nedb'),
-  passport = require('passport'),
-  session = require('express-session'),
-  bodyParser = require('body-parser');
-  LocalStrategy = require('passport-local').Strategy,
-  PassportConfig = require('./config/passport'),
-  UserDb = require('./model/userdb.js'),
-  TicketDb = require('./model/ticketdb.js'),
-  UserController = require('./controller/users'),
-  Ticket = require('./controller/tickets');
+    mustache = require('mustache-express'),
+    path = require('path'),
+    passport = require('passport'),
+    bodyParser = require('body-parser'),
+    PassportConfig = require('./config/passport'),
+    session = require('express-session')
+;
 
+var app = express();
 app.engine('mustache', mustache());
 
 app.use(express.urlencoded());
@@ -26,6 +20,26 @@ app.use(passport.session());
 app.set('view engine', 'mustache');
 app.set('views', path.resolve(__dirname, 'views'));
 app.set('port', process.env.PORT || 3000);
+
+var databaseInstance = new (require('./DbInstance').DbInstanceClass)();
+
+// Setup express passport
+require('./config/passport').initPassport(databaseInstance);
+// 
+
+
+app.use('/',         require('./routes/index'));
+app.use('/auth',     require('./routes/authentication').createRouter( passport, databaseInstance ) );
+app.use('/user',     require('./routes/users')         .createRouter( passport, databaseInstance ) );
+app.use('/tickets',  require('./routes/tickets')       .createRouter( passport, databaseInstance ) );
+
+app.listen(app.get('port'), () => {
+  console.log('Express started at port 3000, ctrl^c to stop')
+})
+
+// =============================================== 
+/*
+
 
 var userDB = new Datastore({ filename: 'users.nedb.db', autoload: true });
 var ticketDB = new Datastore({ filename: 'tickets.nedb.db', autoload: true });
@@ -76,3 +90,5 @@ app.get('/comments', (req, res) => {
 app.listen(app.get('port'), () => {
   console.log('Express started at port 3000, ctrl^c to stop')
 })
+
+*/

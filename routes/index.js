@@ -10,11 +10,9 @@ router.get('/', (req, res) => {
     res.redirect('/auth/login');
 });
 
-
+// /home -> /user/home
 router.get('/home', (req, res) => {
-    if (!req.isAuthenticated()) { res.redirect('/auth/login'); return; }
-    // 
-    res.render('home');
+    res.redirect('/user/home');
 });
 
 module.exports = router;

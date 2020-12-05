@@ -1,17 +1,28 @@
 var express = require('express'),
     router = express.Router(),
-    authController = require('../controller/authentication')
+    controllerTickets = require('../controller/tickets')
 
-function createRouter(passport, DbHandler) {
-    var controller = new authController.AuthenticationControllerClass(passport, DbHandler);
+function createRouter(passport, DbInstance) {
+    var controller = new controllerTickets.TicketControllerClass(passport, DbInstance);
 
-    router.get('/login',   (req,res,next) => controller.Login.call( controller, req, res, next ));
-    router.post('/login',  (req,res,next) => controller.LoginPost.call( controller, req, res, next ));
+    // /all            -> View all tickets
+    // /view/:ticketId -> View ticket
 
-    router.get('/logout',  (req,res,next) => controller.Logout.call( controller, req, res, next ));
-    router.post('/logout', (req,res,next) => controller.LogoutPost.call ( controller, req, res, next));
+    // var ticketId = req.params['ticketId']
+    // dbInsatnce.Tickets.findTicket(ticketId);
+
+    // Viewing /tickets, make the urls something like this:
+    // mustache: <a href="/tickets/view/{{ticketId}}"> View Ticket </a>
+
+    register( router, controller, router.get, '/comments', controller.ViewAllComments );
 
     return router;
+}
+
+function register(router, controller, routerFn, path, controllerFn) {
+    routerFn.call(
+        router, path, 
+        (req,res,next) => controllerFn.call(controller, req, res, next));
 }
 
 exports = module.exports = {}

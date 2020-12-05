@@ -5,14 +5,19 @@ var express = require('express'),
 function createRouter(passport, DbInstance) {
     var controller = new authController.AuthenticationControllerClass(passport, DbInstance);
 
-    router.get('/login',   (req,res,next) => controller.Login.call( controller, req, res, next ));
-    router.post('/login',  (req,res,next) => controller.LoginPost.call( controller, req, res, next ));
-
-    router.get('/logout',  (req,res,next) => controller.Logout.call( controller, req, res, next ));
-    router.post('/logout', (req,res,next) => controller.LogoutPost.call ( controller, req, res, next));
+    register( router, controller, router.get,  '/login',  controller.Login );
+    register( router, controller, router.post, '/login',  controller.LoginPost );
+    register( router, controller, router.get,  '/logout', controller.Logout );
+    register( router, controller, router.post, '/logout', controller.LogoutPost );
 
     return router;
 }
 
+
+function register(router, controller, routerFn, path, controllerFn) {
+    routerFn.call(
+        router, path, 
+        (req,res,next) => controllerFn.call(controller, req, res, next));
+}
 exports = module.exports = {}
 module.exports.createRouter = createRouter;
