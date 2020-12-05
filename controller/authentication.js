@@ -1,5 +1,3 @@
-const bcrypt = require('bcrypt');
-
 class AuthenticationController {
     passport = null;
     dbInstance = null;
