@@ -15,4 +15,8 @@ router.get('/home', (req, res) => {
     res.redirect('/user/home');
 });
 
+router.get('comments', (req, res) => {
+    res.redirect('/user/comments');
+});
+
 module.exports = router;

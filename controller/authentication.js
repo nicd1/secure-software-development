@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt');
+var bouncer = require('express-bouncer');
 
 class AuthenticationController {
     passport = null;
@@ -8,7 +8,7 @@ class AuthenticationController {
         this.passport = passport;
         this.dbInstance = DbInstance;
     }
-
+    
     // Called on [GET] /login
     async Login(req, res, next) {
         var messages = req.session.messages || [];
@@ -20,9 +20,10 @@ class AuthenticationController {
     async LoginPost(req, res, next) {
         this.passport.authenticate('local', (err, user, info) => {
             if (err) return next(err); 
-            if (!user) 
-                return this._SessionMessageRedirect(req, res, "/auth/login", "Username or password is not valid.");
+            if (!user){ 
 
+                return this._SessionMessageRedirect(req, res, "/auth/login", "Username or password is not valid.");
+            }
             req.logIn( user, (err) => {
                if (err) return next(err); 
                return res.redirect("/");

@@ -40,6 +40,31 @@ function initPassport(DbInstance) {
 			}
 		})
 	);
+
+
+	// This code won't work due to me using a Debian virtual environment - I can't access the GitHub API or Passport API to do this.
+	// This is code should theoretically work in a normal environment (but not here)
+	// passport.use('github-auth', new GithubStrategy ({
+	// 	consumerKey: GITHUB_CONSUMER_KEY,
+	// 	consumerSecret: GITHUB_CONSUMBER_SECRET,
+	// 	callbackURL: "http://www.example.com/connect/github/callback",
+	// 	passReqToCallback: true
+	// },
+	// function(token, tokenSecret, profile, done){
+	// 	Account.findOne({ domain: 'github.com', uid: client_id }, function(err, account) {
+	// 		if(err) { return done(err); }
+	// 		if (account) { return done(null, account); }
+			
+	// 		var account = new Account();
+	// 		account.domain = 'github.com';
+	// 		account.uid = client_id;
+	// 		var t = { kind: 'oauth', token: token, attributes: { tokenSecret: tokenSecret } };
+
+	// 		account.tokens.push(t);
+	// 		return done (null,account);
+	// 		});
+	// 	}
+	// ));
 }
 
 exports = module.exports = {}
