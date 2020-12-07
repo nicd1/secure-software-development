@@ -32,7 +32,7 @@ app.use('/',         require('./routes/index'));
 app.use('/auth',     require('./routes/authentication').createRouter( passport, databaseInstance ) );
 app.use('/user',     require('./routes/users')         .createRouter( passport, databaseInstance ) );
 app.use('/tickets',  require('./routes/tickets')       .createRouter( passport, databaseInstance ) );
-app.use('/comments', require('./routes/tickets').createRouter( passport, databaseInstance ) );
+app.use('/comments', require('./routes/comments').createRouter( passport, databaseInstance ));
 
 app.listen(app.get('port'), () => {
   console.log('Express started at port 3000, ctrl^c to stop')

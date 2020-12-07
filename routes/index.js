@@ -10,13 +10,13 @@ router.get('/', (req, res) => {
     res.redirect('/auth/login');
 });
 
-// /home -> /user/home
+//home -> /user/home
 router.get('/home', (req, res) => {
     res.redirect('/user/home');
 });
 
-router.get('comments', (req, res) => {
-    res.redirect('/user/comments');
+router.get('/comments', (req, res) => {
+    res.redirect('/comments');
 });
 
 module.exports = router;

@@ -19,15 +19,11 @@
 
 class TicketController {
     passport = null;
-    userDb = null;
+    ticketDb = null;
 
-    constructor (passport, userDb) {
+    constructor (passport, ticketDb) {
         this.passport = passport;
-        this.userDb = userDb;
-    }
-
-    Comments (req,res,next) {
-        res.render('comments')
+        this.ticketDb = ticketDb;
     }
 
     async ViewAllTickets(req, res, next) {
