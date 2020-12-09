@@ -19,6 +19,7 @@ app.use(passport.session());
 
 app.set('view engine', 'mustache');
 app.set('views', path.resolve(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'views')));
 app.set('port', process.env.PORT || 3000);
 
 var databaseInstance = new (require('./DbInstance').DbInstanceClass)();

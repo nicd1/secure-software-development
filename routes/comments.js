@@ -7,7 +7,7 @@ function createRouter(passport, DbInstance) {
 
     router.use( (req, res, next) => {
         if (!req.isAuthenticated()) 
-            return res.redirect('/comments');  
+            return res.redirect('/login');  
         return next();
     });
 
